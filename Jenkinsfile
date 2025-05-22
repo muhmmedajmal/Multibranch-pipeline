@@ -10,28 +10,17 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
-                sh 'mvn clean build'
-            }
-        }
-
-        stage('Run') {
-            steps {
-                sh 'java -cp target/classes com.example.HelloApp'
+                echo "Running build for branch: ${BRANCH_NAME}"
+                sh 'mvn clean compile'
             }
         }
     }
 
     post {
         always {
-            echo "Pipeline completed for branch: ${env.BRANCH_NAME}"
+            echo "Build stage completed for branch: ${BRANCH_NAME}"
         }
     }
 }
